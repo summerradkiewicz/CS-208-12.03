@@ -5,15 +5,32 @@ block content
   p Welcome to #{title}
   ol
   each val in todos
-    li
+    //sort class for each task by complete/incomplete to color the tasks accordingly
+    li(class=val.completed > 0 ? 'completed' : 'not-completed')
+      // Delete task
+      form(method='POST' action='/delete' id='delete')
+        input(type='hidden', name='id', value=val.id)
+        button(type='submit' title="Delete task") ✖
+      // Set task to complete
+      form(method='POST' action='/complete' id='finish')
+        input(type='hidden', name='id', value=val.id)
+        button(type='submit' id='complete-button' onclick='updateColor()' title="Set task to complete/incomplete") ✓
+      // Edit task description
+      button(type='submit' onclick=`show('${val.id}')` id='edit' title="Edit the description of this task") Edit
+
+      // The actual task description + completion
       span= val.task + ' - '
       if val.completed > 0
         span Completed
       else
         span Not Completed
-      form(method='POST' action='/delete')
-        input(type='hidden', name='id', value=val.id)
-        button(type='submit') Delete
+
+      // Edit field (hidden by default)
+      form(method='POST' action='/edit' id='edit'+val.id, style='display:none')
+        input(type='hidden',name='id', value=val.id)
+        input(type='text',name='task', value=val.task)
+        button(type='submit') Submit
+      
 
   hr
   h2 Add a new task
@@ -21,3 +38,24 @@ block content
     label(for='task') Task:
     input(type='text', name='task', id='task', required)
     button(type='submit') Create Task
+
+
+  script. 
+    function show(id) {
+      let editForm = document.getElementById('edit' + id);
+      if (editForm.style.display == 'none') {
+        editForm.style.display = 'block';
+      } else {
+        editForm.style.display = 'none';
+      }
+    }
+
+    function updateColor() {
+      let completed = document.querySelectorAll('.completed');
+      completed.forEach(item => {
+        item.style.color = 'green';
+      })
+    }
+
+    //Call it when the page loads, in addition to when it gets updated via the complete button
+    updateColor();

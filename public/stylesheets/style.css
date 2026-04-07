@@ -1,8 +1,43 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(238, 237, 233);
 }
 
 a {
   color: #00B7FF;
+}
+
+li {
+  list-style-type:square;
+}
+
+li > span {
+  transition: padding 0.5s;
+}
+
+li > span:hover {
+  padding: 10px;
+}
+
+#delete, #finish, #edit {
+  display: inline;
+}
+
+button {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color:  rgb(116, 195, 135);
+  display: inline;
+  border-style: none;
+  border-radius: 5px;
+  margin: 2px 2px;
+}
+
+button:hover {
+  background-color: rgb(148, 223, 177);
+}
+
+button:active {
+  color: rgb(148, 223, 177);
+  background-color:  rgb(148, 223, 177);
 }
